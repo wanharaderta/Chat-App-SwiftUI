@@ -139,8 +139,6 @@
 				834517ED2487FEAA00A5119D /* Views */,
 				834517EA2487FA3500A5119D /* Models */,
 				834517E72487F97700A5119D /* ViewModels */,
-				834517B92487F5C200A5119D /* ContentView.swift */,
-				834517C02487F5C300A5119D /* LaunchScreen.storyboard */,
 				834517C32487F5C300A5119D /* Info.plist */,
 				834517B62487F5C200A5119D /* Chat_App.xcdatamodeld */,
 				834517BD2487F5C300A5119D /* Preview Content */,
@@ -193,6 +191,10 @@
 		834517ED2487FEAA00A5119D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				834517F12488009900A5119D /* Home */,
+				834517F02488009100A5119D /* Login */,
+				834517C02487F5C300A5119D /* LaunchScreen.storyboard */,
+				834517B92487F5C200A5119D /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +215,20 @@
 				834517BB2487F5C300A5119D /* Assets.xcassets */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		834517F02488009100A5119D /* Login */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		834517F12488009900A5119D /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		D2458A41FE5BD4C42EC93B89 /* Pods */ = {
