@@ -18,6 +18,22 @@ struct LoginView: View {
     
     @State var user = ""
     @State var pass = ""
+    @State var error = ""
+    
+    @EnvironmentObject var authViewModel:AuthViewModel
+    
+    
+    func signIn() {
+        authViewModel.signIn(email: user, password: pass){ (result, error ) in
+            if let error    = error {
+                self.error  = error.localizedDescription
+            } else {
+                self.user   = ""
+                self.pass   = ""
+            }
+        }
+        
+    }
     
     var body: some View {
         ZStack {
@@ -49,9 +65,7 @@ struct LoginView: View {
                             Divider()
                         }
                         
-                        Button(action: {
-                            //action
-                        }){
+                        Button(action: signIn){
                             Text("Sign In").foregroundColor(.white).frame(width: UIScreen.main.bounds.width - 120).padding()
                         }.background(Color.blue)
                             .clipShape(Capsule())
