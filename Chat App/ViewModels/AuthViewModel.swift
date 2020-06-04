@@ -9,8 +9,8 @@
 import Firebase
 import Combine
 
-class SessionStoreViewModel: ObservableObject {
-    var didChange   = PassthroughSubject<SessionStoreViewModel, Never>()
+class AuthViewModel: ObservableObject {
+    var didChange   = PassthroughSubject<AuthViewModel, Never>()
     var handle      : AuthStateDidChangeListenerHandle?
     @Published var session: User? {
         didSet {
