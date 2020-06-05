@@ -40,10 +40,11 @@ class ChatViewModel: ObservableObject  {
                 
                 formatter.dateFormat    = "hh:mm a"
                 let time                = formatter.string(from: stamp.dateValue())
-            
+                
                 self.recents.append(Recent(id: id, name: name, pic: pic, lastmsg: lastmsg, time: time, date: date, stamp: stamp.dateValue()))
             }
         }
     }
+    
 }
 

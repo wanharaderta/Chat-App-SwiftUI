@@ -7,6 +7,9 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
 struct LoginView: View {
     
@@ -15,25 +18,9 @@ struct LoginView: View {
         Color(red: 147/255, green: 249/255, blue: 185/255)
     ]
     
-    
-    @State var user = ""
-    @State var pass = ""
+    @State var email = ""
+    @State var password = ""
     @State var error = ""
-    
-    @EnvironmentObject var authViewModel:AuthViewModel
-    
-    
-    func signIn() {
-        authViewModel.signIn(email: user, password: pass){ (result, error ) in
-            if let error    = error {
-                self.error  = error.localizedDescription
-            } else {
-                self.user   = ""
-                self.pass   = ""
-            }
-        }
-        
-    }
     
     var body: some View {
         ZStack {
@@ -49,7 +36,7 @@ struct LoginView: View {
                         VStack(alignment: .leading) {
                             Text("Username").font(.headline).fontWeight(.light).foregroundColor(Color.init(.label).opacity(0.75))
                             HStack{
-                                TextField("Enter Your Username", text: $user)
+                                TextField("Enter Your Username", text: $email)
                             }
                             
                             Divider()
@@ -59,13 +46,34 @@ struct LoginView: View {
                         VStack(alignment: .leading) {
                             Text("Password").font(.headline).fontWeight(.light).foregroundColor(Color.init(.label).opacity(0.75))
                             HStack{
-                                SecureField("Enter Your Password", text: $pass)
+                                SecureField("Enter Your Password", text: $password)
                             }
                             
                             Divider()
                         }
                         
-                        Button(action: signIn){
+                        Button(action: {
+                            Auth.auth().signIn(withEmail: self.email, password: self.password) { (result, err) in
+                                if err != nil {
+                                    self.error = (err?.localizedDescription)!
+                                    return
+                                }
+                                
+                                getUser { (success, name, pic) in
+                                    if (success){
+                                        UserDefaults.standard.set(true, forKey: "status")
+                                        UserDefaults.standard.set(name, forKey: "name")
+                                        UserDefaults.standard.set(name, forKey: "pic")
+                                        
+                                        NotificationCenter.default.post(name: NSNotification.Name("statusChange"), object: nil)
+                                        
+                                        self.email      = ""
+                                        self.password   = ""
+                                    }
+                                }
+                            }
+                            
+                        }){
                             Text("Sign In").foregroundColor(.white).frame(width: UIScreen.main.bounds.width - 120).padding()
                         }.background(Color.blue)
                             .clipShape(Capsule())
@@ -105,5 +113,27 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+    }
+}
+
+func getUser(completion: @escaping (Bool, String, String) -> Void) {
+    let db = Firestore.firestore()
+    
+    db.collection("users").getDocuments { (snap, err) in
+        
+        if err != nil {
+            print((err?.localizedDescription)!)
+            return
+        }
+        
+        for i in snap!.documents {
+            if i.documentID ==  Auth.auth().currentUser?.uid{
+                completion(true, i.get("name") as! String,i.get("pic") as! String )
+                return
+            }
+        }
+        
+        completion(false, "","")
+        
     }
 }

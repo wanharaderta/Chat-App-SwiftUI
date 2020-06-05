@@ -17,8 +17,9 @@
 		834517CD2487F5C300A5119D /* Chat_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834517CC2487F5C300A5119D /* Chat_AppTests.swift */; };
 		834517D82487F5C300A5119D /* Chat_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834517D72487F5C300A5119D /* Chat_AppUITests.swift */; };
 		834517E62487F77F00A5119D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 834517E52487F77F00A5119D /* GoogleService-Info.plist */; };
-		834517E92487F99000A5119D /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834517E82487F99000A5119D /* AuthViewModel.swift */; };
+		834517E92487F99000A5119D /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834517E82487F99000A5119D /* LoginViewModel.swift */; };
 		834517EC2487FA4400A5119D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834517EB2487FA4400A5119D /* User.swift */; };
+		83888CA3248A68DB000136A1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83888CA2248A68DB000136A1 /* ContentView.swift */; };
 		83F1287D248930EB00CA922C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F1287C248930EB00CA922C /* LoginView.swift */; };
 		83F128802489370900CA922C /* Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F1287F2489370900CA922C /* Corners.swift */; };
 		83F128842489372C00CA922C /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F128832489372C00CA922C /* CustomShape.swift */; };
@@ -68,8 +69,9 @@
 		834517D72487F5C300A5119D /* Chat_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat_AppUITests.swift; sourceTree = "<group>"; };
 		834517D92487F5C300A5119D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		834517E52487F77F00A5119D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		834517E82487F99000A5119D /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		834517E82487F99000A5119D /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		834517EB2487FA4400A5119D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		83888CA2248A68DB000136A1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		83F1287C248930EB00CA922C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		83F1287F2489370900CA922C /* Corners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Corners.swift; sourceTree = "<group>"; };
 		83F128832489372C00CA922C /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
@@ -187,7 +189,7 @@
 		834517E72487F97700A5119D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				834517E82487F99000A5119D /* AuthViewModel.swift */,
+				834517E82487F99000A5119D /* LoginViewModel.swift */,
 				83F1288724894E1300CA922C /* ChatViewModel.swift */,
 			);
 			path = ViewModels;
@@ -209,6 +211,7 @@
 				834517F12488009900A5119D /* Home */,
 				834517F02488009100A5119D /* Login */,
 				834517C02487F5C300A5119D /* LaunchScreen.storyboard */,
+				83888CA2248A68DB000136A1 /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -516,7 +519,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				83F1288D2489584500CA922C /* Recent.swift in Sources */,
-				834517E92487F99000A5119D /* AuthViewModel.swift in Sources */,
+				834517E92487F99000A5119D /* LoginViewModel.swift in Sources */,
+				83888CA3248A68DB000136A1 /* ContentView.swift in Sources */,
 				83F1287D248930EB00CA922C /* LoginView.swift in Sources */,
 				83F128842489372C00CA922C /* CustomShape.swift in Sources */,
 				83F128862489465A00CA922C /* HomeView.swift in Sources */,
