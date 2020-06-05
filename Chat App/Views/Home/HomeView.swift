@@ -29,16 +29,7 @@ struct HomeView: View {
             }
         }.navigationBarTitle("Home",displayMode: .inline)
         .navigationBarItems(trailing:
-            Button(action: {
-                UserDefaults.standard.set("", forKey: "name")
-                UserDefaults.standard.set("", forKey: "pic")
-                
-                try! Auth.auth().signOut()
-                
-                UserDefaults.standard.set(false, forKey: "status")
-                
-                NotificationCenter.default.post(name: NSNotification.Name("statusChange"), object: nil)
-            }, label: {
+            Button(action: self.chatsViewModel.logout, label: {
                 Text("Logout")
             })
         )

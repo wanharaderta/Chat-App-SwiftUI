@@ -9,7 +9,7 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseStorage
-import Firebase
+import FirebaseAuth
 
 class ChatViewModel: ObservableObject  {
     
@@ -44,6 +44,17 @@ class ChatViewModel: ObservableObject  {
                 self.recents.append(Recent(id: id, name: name, pic: pic, lastmsg: lastmsg, time: time, date: date, stamp: stamp.dateValue()))
             }
         }
+    }
+    
+    func logout() {
+        UserDefaults.standard.set("", forKey: "name")
+        UserDefaults.standard.set("", forKey: "pic")
+        
+        try! Auth.auth().signOut()
+        
+        UserDefaults.standard.set(false, forKey: "status")
+        
+        NotificationCenter.default.post(name: NSNotification.Name("statusChange"), object: nil)
     }
     
 }
