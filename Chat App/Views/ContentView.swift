@@ -17,7 +17,7 @@ struct ContentView: View {
         VStack {
             if(status){
                 NavigationView {
-                    HomeView().environmentObject(ChatViewModel())
+                    HomeView().environmentObject(HomeViewModel())
                 }
             } else {
                 LoginView()

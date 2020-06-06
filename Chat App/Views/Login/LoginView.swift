@@ -59,11 +59,12 @@ struct LoginView: View {
                                     return
                                 }
                                 
-                                getUser { (success, name, pic) in
+                                getUser { (success, name, pic, id) in
                                     if (success){
                                         UserDefaults.standard.set(true, forKey: "status")
                                         UserDefaults.standard.set(name, forKey: "name")
                                         UserDefaults.standard.set(name, forKey: "pic")
+                                        UserDefaults.standard.set(id, forKey: "UID")
                                         
                                         NotificationCenter.default.post(name: NSNotification.Name("statusChange"), object: nil)
                                         
@@ -116,7 +117,7 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 
-func getUser(completion: @escaping (Bool, String, String) -> Void) {
+func getUser(completion: @escaping (Bool, String, String,String) -> Void) {
     let db = Firestore.firestore()
     
     db.collection("users").getDocuments { (snap, err) in
@@ -128,12 +129,12 @@ func getUser(completion: @escaping (Bool, String, String) -> Void) {
         
         for i in snap!.documents {
             if i.documentID ==  Auth.auth().currentUser?.uid{
-                completion(true, i.get("name") as! String,i.get("pic") as! String )
+                completion(true, i.get("name") as! String,i.get("pic") as! String, i.documentID )
                 return
             }
         }
         
-        completion(false, "","")
+        completion(false, "","","")
         
     }
 }
