@@ -22,29 +22,36 @@ struct ChatRoomView : View {
         
         VStack {
             if viewModel.messages.count == 0 {
-                Spacer()
-                Text("Start New Conversation !!!").foregroundColor(Color.black.opacity(0.5)).padding(.top)
-                Spacer()
+                if (viewModel.noMsgs) {
+                    Spacer()
+                    Text("Start New Conversation !!!").foregroundColor(Color.black.opacity(0.5)).padding(.top)
+                    Spacer()
+                } else {
+                    Spacer()
+                    Indicator()
+                    Spacer()
+                    
+                }
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 8) {
                         ForEach(viewModel.messages){ i in
                             HStack {
-                                if i.id == UserDefaults.standard.value(forKey: "UID") as! String {
+                                if i.user == UserDefaults.standard.value(forKey: "UID") as! String {
                                     
                                     Spacer()
                                     
                                     Text(i.message)
-                                        .padding().background(Color.white)
+                                        .padding().background(Color.green)
                                         .clipShape(ChatBubble(msg: true))
-                                        .foregroundColor(.green)
-                                        
+                                        .foregroundColor(.white)
+                                    
                                 } else {
                                     Text(i.message)
                                         .padding().background(Color.gray)
                                         .clipShape(ChatBubble(msg: true))
                                         .foregroundColor(.white)
-                                        
+                                    
                                     Spacer()
                                 }
                             }
@@ -58,22 +65,18 @@ struct ChatRoomView : View {
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button(action: {
-                    
+                    self.viewModel.sendMessage(user: self.name, id: self.uid, pic: self.pic, msg: self.txt)
+                    self.txt = ""
                 }) {
                     Text("Send")
                 }
             }.padding()
+                
+                
             
-//            navigationBarTitle("\(name)", displayMode: .inline)
-//                .navigationBarItems(leading: Button(action: {
-//                    self.chat.toggle()
-//                }, label: {
-//                    Image(systemName: "arrow.left")
-//                        .resizable()
-//                        .frame(width: 20, height: 20)
-//                }))
-            
-        }.padding()
+        }
+        .navigationBarTitle("\(name)", displayMode: .inline)
+        .padding()
             .onAppear{
                 self.viewModel.getMessages(id: self.uid)
         }

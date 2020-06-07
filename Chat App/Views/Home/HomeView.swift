@@ -13,7 +13,7 @@ import SDWebImageSwiftUI
 struct HomeView: View {
     
     @EnvironmentObject var homeViewModel: HomeViewModel
-    //@State var myuid = UserDefaults.standard.value(forKey: "UserName") as! String
+    @State var username = UserDefaults.standard.value(forKey: "name") as! String
     @State var chat = false
     @State var uid  = ""
     @State var name = ""
@@ -27,7 +27,11 @@ struct HomeView: View {
             }
             VStack {
                 if self.homeViewModel.recents.count == 0 {
-                    Text("No Chat History")
+                    if self.homeViewModel.noRecetns {
+                        Text("No Chat History")
+                    } else {
+                       Indicator()
+                    }
                 } else {
                     ScrollView(.vertical, showsIndicators: false){
                         VStack(spacing: 16) {
@@ -45,7 +49,9 @@ struct HomeView: View {
                     }
                 }
             }.navigationBarTitle("Home",displayMode: .inline)
-                .navigationBarItems(trailing:
+                .navigationBarItems(leading:
+                    Text(self.username)
+                    , trailing:
                     Button(action: self.homeViewModel.logout, label: {
                         Text("Logout")
                     })

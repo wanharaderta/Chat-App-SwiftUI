@@ -13,7 +13,7 @@ import FirebaseFirestore
 class ChatRoomViewModel : ObservableObject {
     
     @Published var messages = [Messages]()
-    
+    @Published var noMsgs = false
     
     func getMessages(id:String) {
         
@@ -24,6 +24,10 @@ class ChatRoomViewModel : ObservableObject {
             if err != nil {
                 print((err?.localizedDescription))
                 return
+            }
+            
+            if snap!.isEmpty {
+                self.noMsgs = true
             }
             
             for i in snap!.documentChanges {
@@ -38,32 +42,58 @@ class ChatRoomViewModel : ObservableObject {
         }
     }
     
-    func sendMessage(user: String, uid: String, pic: String, date: Date, msg: String, name:String) {
+    func sendMessage(user: String, id: String, pic: String, msg: String) {
         let db  = Firestore.firestore()
         let uid = Auth.auth().currentUser?.uid
-        db.collection("users").document(uid).collection("recents").document(self.uid!).getDocument { (snap, err) in
+        db.collection("users").document(id).collection("recents").document(uid!).getDocument{ (snap, err) in
             if err != nil {
-                print((err?.localizedDescription))
+                print((err?.localizedDescription) ?? "")
+                self.setRecents(user: user, id: id, pic: pic, date: Date(), msg: msg)
                 return
             }
             
             if snap!.exists {
-                self.setRecents(user: user, uid: uid, pic: pic, date: date, msg: msg)
+                self.setRecents(user: user, id: id, pic: pic, date: Date(), msg: msg)
             } else {
-                
+                self.updateRecents(id: id, lastmsg: msg, date: Date())
             }
         }
+        
+        updateDB(id: id, msg: msg, date: Date())
     }
     
     func setRecents(user: String, id: String, pic: String, date: Date, msg: String) {
         let db  = Firestore.firestore()
         let uid = Auth.auth().currentUser?.uid
-       //db.collection("users").document(uid).collection("recents").document(id)
+        db.collection("users").document(id).collection("recents").document(uid!).setData(["name":user,"pic":pic,"lastmsg":msg,"date":date]) { (err) in
+            if err != nil {
+                print((err?.localizedDescription) ?? "")
+                return
+            }
+        }
     }
     
-    func updateRecents(uid:String, lastmsg:String, date:Date) {
+    func updateRecents(id:String, lastmsg:String, date:Date) {
         let db  = Firestore.firestore()
         let uid = Auth.auth().currentUser?.uid
-      //  db.collection("users").document(uid).collection("recents").document(self.uid!)
+        db.collection("users").document(id).collection("recents").document(uid!).updateData(["lastmsg":lastmsg,date:date])
+        db.collection("users").document(uid!).collection("recents").document(id).updateData(["lastmsg":lastmsg,date:date])
+    }
+    
+    func updateDB(id:String, msg:String, date:Date){
+        let db  = Firestore.firestore()
+        let uid = Auth.auth().currentUser?.uid
+        db.collection("msgs").document(id).collection(uid!).document().setData(["msg":msg,"user":id,"date":date]) { (err) in
+            if err != nil {
+                print((err?.localizedDescription) ?? "")
+                return
+            }
+        }
+        db.collection("msgs").document(uid!).collection(id).document().setData(["msg":msg,"user":id,"date":date]) { (err) in
+            if err != nil {
+                print((err?.localizedDescription) ?? "")
+                return
+            }
+        }
     }
 }
